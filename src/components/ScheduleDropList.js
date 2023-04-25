@@ -20,7 +20,7 @@ const ScheduleDropList = ({ title, data, noCap }) => {
           data && data.map((item, i) => {
             return (
               <div className="w-full flex items-center justify-between text-lg bg-gray-100 mb-2 rounded-md px-3 py-3" key={i}>
-                <div className="font-medium">{item}</div>
+                <div className="font-medium">{i+1}: {item}</div>
               </div>
             );
           })) : (
@@ -28,7 +28,7 @@ const ScheduleDropList = ({ title, data, noCap }) => {
           data && data.map((item, i) => {
             return (
               <div className="w-full flex items-center justify-between text-lg capitalize bg-gray-100 mb-2 rounded-md px-3 py-3" key={i}>
-                <div className="font-medium">{item}</div>
+                <div className="font-medium">{i+1}: {item}</div>
               </div>
             );
           }))}
