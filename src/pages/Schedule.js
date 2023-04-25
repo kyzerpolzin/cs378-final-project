@@ -15,7 +15,7 @@ const Schedule = () => {
   const navigate = useNavigate();
   const [ingredients_all, setIngredients] = useState(["Loading..."]);
   const [equipment_all, setEquipment] = useState(["Loading..."]);
-  const [steps_fin, setStepsFin] = useState(null);
+  const [steps_fin, setStepsFin] = useState(["Loading..."]);
   const [time_all, setTime] = useState(0);
   const [notes_all, setNotes] = useState([]);
   
@@ -48,6 +48,7 @@ const Schedule = () => {
     // merge steps together
     let index = 0;
     let stepsMerged = [];
+    let onlySteps = [];
     while (scheduleItems.length > 0) {
       for (let i = scheduleItems.length - 1; i >= 0; i--) {
         const recipeInfo = JSON.parse(window.localStorage.getItem(scheduleItems[i].id));
@@ -60,6 +61,7 @@ const Schedule = () => {
           ingredient: step.ingredients ? step.ingredients.map((item) => item.name) : [],
           equipment: step.equipment ? step.equipment.map((item) => item.name) : [],
         }
+        onlySteps.push(step.step);
         stepsMerged.push(step_info);
 
         if (index + 1 >= recipeInfo.stepsLong.length) {
@@ -68,7 +70,7 @@ const Schedule = () => {
       }
       index++;
     }
-    setStepsFin(stepsMerged);
+    setStepsFin(onlySteps);
   }, []);
 
   const handleFinish = () => {
@@ -88,18 +90,12 @@ const Schedule = () => {
         <div>
           <ScheduleDropList title={"Ingredients"} data={ingredients_all} />
           <ScheduleDropList title={"Equipment"} data={equipment_all} />
+          <ScheduleDropList title={"Steps"} data={steps_fin} />
         </div>
 
-        <div className="w-full">
+        {/* <div className="w-full">
           <ScheduleCarousel steps={steps_fin}/>
-        </div>
-
-        {notes_all.length > 0 ? (
-          <div className="w-full">
-            <ScheduleDropList title={"Notes"} data={notes_all} noCap={true}/>
-          </div>) : (<div></div>
-        )}
-        
+        </div> */}
 
         {/* Old design */}
         {/* <div className="w-full flex flex-col">
@@ -123,6 +119,14 @@ const Schedule = () => {
               );
             })}
         </div> */}
+
+
+        {notes_all.length > 0 ? (
+          <div className="w-full">
+            <ScheduleDropList title={"Notes"} data={notes_all} noCap={true}/>
+          </div>) : (<div></div>
+        )}
+        
         <Button
           onClick={handleFinish}
           className="schedule-finish-button"
